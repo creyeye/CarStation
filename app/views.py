@@ -3,11 +3,16 @@ from .models import Post
 from .forms import PostCreationForm, PostUpdateForm, UserLoginForm, UserRegisterForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.views.generic import ListView
 
 
-def post_list(request):
-    posts = Post.objects.all()
-    return render(request, 'app/post_list.html', {"posts": posts})
+# def post_list(request):
+#     posts = Post.objects.all()
+#     return render(request, 'app/post_list.html', {"posts": posts})
+class PostListViews(ListView):
+    model = Post
+    template_name = 'app/post_list.html'
+    context_object_name = 'posts'
 
 
 def index(request):
@@ -50,8 +55,8 @@ def post_create(request):
                 user=request.user,
                 title=request.POST['title'],
                 description=request.POST['description'],
-                file=request.FILES['image'],
-                preview=request.FILES['file'],
+                image=request.FILES['image'],
+                file=request.FILES['file'],
             )
             post.save()
             return redirect('post_list')

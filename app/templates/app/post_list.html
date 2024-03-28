@@ -1,36 +1,60 @@
-{% block content %}
 {% load static %}
-{% if not posts %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .post {
+            background-color: #fff;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .post img {
+            max-width: 15%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .post-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .post-description {
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .post-date {
+            color: #888;
+        }
+        .post-file {
+            max-width: 100px;
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
     <center>
-        <h1>404</h1>
-        <h3>Page Not Found</h3>
+    <h1>Posts</h1>
     </center>
-{% endif %}
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Image</th>
-            <th>File</th>
-            <th>Created Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{{ post.title }}</td>
-            <td>{{ post.description }}</td>
-            <td>{{ post.created_date }}</td>
-        </tr>
-    </tbody>
-</table>
-
-<center>
-    <form method="post" action=".">
-        {% csrf_token %}
-        {{ form.as_p }}
-    </form>
-</center>
-
-{% endblock %}
+    {% if posts %}
+        {% for post in posts %}
+            <div class="post">
+                <center>
+                <h2 class="post-title"> <a href="{% url 'post_detail' post.id %}">  {{ post.title }} </a></h2>
+                </center>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No posts available.</p>
+    {% endif %}
+</body>
+</html>
