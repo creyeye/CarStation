@@ -3,7 +3,7 @@ from .models import Post
 from .forms import PostCreationForm, PostUpdateForm, UserLoginForm, UserRegisterForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django.views.generic import ListView
+from django.views.generic import ListView, UpdateView, DetailView
 
 
 # def post_list(request):
@@ -15,29 +15,65 @@ class PostListViews(ListView):
     context_object_name = 'posts'
 
 
+class PostUpdate(UpdateView):
+    model = Post
+    form_class = PostUpdateForm
+    template_name = 'app/post_update.html'
+    success_url = '/index/'
+
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'app/post_detail.html'
+
+
 def index(request):
     return render(request, 'app/index.html')
 
 
-def post_detail(request, pk):
+def error(request):
+    return render(request, 'app/404.html')
 
-    post = get_object_or_404(Post, id=pk)
 
-    if request.method == 'POST':
-        form = PostCreationForm(request.POST,  instance=post)
-        if form.is_valid():
-            form.save()
-            return redirect('index')
-        else:
-            print(form.errors)
-    form = PostUpdateForm(instance=post)
-    return render(
-        request,
-        'app/post_detail.html',
-        {
-            'post': post,
-            'form': form
-        })
+def booking(request):
+    return render(request, 'app/booking.html')
+
+
+def contact(request):
+    return render(request, 'app/contact.html')
+
+
+def service(request):
+    return render(request, 'app/service.html')
+
+
+def team(request):
+    return render(request, 'app/team.html')
+
+
+def testimonial(request):
+    return render(request, 'app/testimonial.html')
+
+
+# def post_detail(request, pk):
+#
+#     post = get_object_or_404(Post, id=pk)
+#
+#     if request.method == 'POST':
+#         form = PostCreationForm(request.POST,  instance=post)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('index')
+#         else:
+#             print(form.errors)
+# form = PostUpdateForm(instance=post)
+# return render(
+#     request,
+#     'app/post_detail.html',
+#     {
+#         'post': post,
+#         'form': form
+#     })
 
 
 def post_delete(pk):
@@ -59,7 +95,7 @@ def post_create(request):
                 file=request.FILES['file'],
             )
             post.save()
-            return redirect('post_list')
+            return redirect('index')
     else:
         form = PostCreationForm()
     return render(request, 'app/post_create.html', {'form': form})

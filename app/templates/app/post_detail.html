@@ -1,3 +1,4 @@
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -39,6 +40,8 @@
 </head>
 <body>
     {% if post %}
+        <a href="{% url 'index' %}"> <h2 >Вернуться на главную страницу</h2>   </a>
+        <a href="{% url 'post_list' %}"> <h2 >Вернуться к постам</h2>   </a>
         <div class="post">
             <h2 class="post-title">{{ post.title }}</h2>
             {% if post.image %}
@@ -50,6 +53,10 @@
                     <video controls width="400" height="300">
                         <source src="{{ post.file.url }}" type="video/mp4">
                     </video>
+            <center>
+                <a href="{% url 'post_update' post.id %}" >Переделайте пост</a>
+            </center>
+
             {% endif %}
         </div>
     {% else %}
