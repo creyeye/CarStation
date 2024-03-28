@@ -53,6 +53,26 @@
                     <small>+012 345 6789</small>
                 </div>
                 <div class="h-100 d-inline-flex align-items-center">
+
+							{% if request.user.is_authenticated %}
+							<li class="header-top-contact">
+								{{ request.user }}
+							</li>
+							<li class="header-top-contact">
+
+								<a href="{% url 'logout' %}">logout</a>
+
+							</li>
+							{% else %}
+							<li class="header-top-contact">
+
+								<a href="{% url 'user_login' %}">login</a>
+							</li>
+							<li class="header-top-contact">
+
+								<a href="{% url 'sign_up' %}">register</a>
+							</li>
+							{% endif %}
                     <a class="btn btn-sm-square bg-white text-primary me-1" href=""><i class="fab fa-facebook-f"></i></a>
                     <a class="btn btn-sm-square bg-white text-primary me-1" href=""><i class="fab fa-twitter"></i></a>
                     <a class="btn btn-sm-square bg-white text-primary me-1" href=""><i class="fab fa-linkedin-in"></i></a>

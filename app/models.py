@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Post(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     title = models.CharField(max_length=100)
     description = models.TextField()
     created_date = models.DateField(auto_now_add=True)
